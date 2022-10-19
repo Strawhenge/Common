@@ -5,25 +5,25 @@ namespace Strawhenge.Common.Unity
     [CreateAssetMenu(menuName = "Strawhenge/Common/Events/Log")]
     public class LogEventScriptableObject : EventScriptableObject
     {
-        public string Message;
-        public LogType LogType;
+        [SerializeField] string _message;
+        [SerializeField] LogType _logType;
 
         public override void Invoke(GameObject gameObject)
         {
-            switch (LogType)
+            switch (_logType)
             {
                 case LogType.Exception:
                 case LogType.Error:
-                    Debug.LogError(Message, gameObject);
+                    Debug.LogError(_message, gameObject);
                     break;
                 case LogType.Assert:
-                    Debug.LogAssertion(Message, gameObject);
+                    Debug.LogAssertion(_message, gameObject);
                     break;
                 case LogType.Warning:
-                    Debug.LogWarning(Message, gameObject);
+                    Debug.LogWarning(_message, gameObject);
                     break;
                 case LogType.Log:
-                    Debug.Log(Message, gameObject);
+                    Debug.Log(_message, gameObject);
                     break;
             }
         }
