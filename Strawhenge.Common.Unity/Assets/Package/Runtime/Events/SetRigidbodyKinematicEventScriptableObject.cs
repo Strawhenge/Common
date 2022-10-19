@@ -5,12 +5,12 @@ namespace Strawhenge.Common.Unity.ScriptableObjects
     [CreateAssetMenu(menuName = "Strawhenge/Common/Events/SetRigidbodyKinematic")]
     public class SetRigidbodyKinematicEventScriptableObject : EventScriptableObject
     {
-        public bool IsKinematic;
+        [SerializeField] bool _isKinematic;
 
         public override void Invoke(GameObject gameObject)
         {
             if (gameObject.TryGetComponent<Rigidbody>(out var rigidbody))
-                rigidbody.isKinematic = IsKinematic;
+                rigidbody.isKinematic = _isKinematic;
         }
     }
 }
