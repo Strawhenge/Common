@@ -1,29 +1,59 @@
 name: Release
 
 on:
-  workflow_dispatch:  
-        
-jobs: 
-  Release:    
-    runs-on: ubuntu-latest
+  workflow_dispatch:
+
+env:
+  VERSION: 1.1.${{ github.run_number }}
+  
+jobs:
+  deploy:
+    runs-on: windows-latest
 
     steps:
-    - name: Git
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: '0'
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+
+      - name: Build
+        run: dotnet build Strawhenge.Common -p:Version=${{ env.VERSION }} --configuration Release
+
+      - name: Test
+        run: dotnet test Strawhenge.Common
+
+      - name: Pack Nuget Package
+        run: dotnet pack Strawhenge.Common -c Release -p:PackageVersion=${{ env.VERSION }} -o nupkg
+
+      - name: Publish Nuget Package
+        run: dotnet nuget push *.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/Strawhenge/index.json --no-symbols true
+        working-directory: ./nupkg
         
-    - name: Release
-      run: |        
-        git --version
-        git config user.name "GitHub Actions Bot"
-        git config user.email "<>"   
-        git checkout -b temp-${{ github.run_number }}
-        echo "`jq '.version="1.0.${{ github.run_number }}"' 'Strawhenge.Common.Unity/Assets/Package/package.json'`" > 'Strawhenge.Common.Unity/Assets/Package/package.json'       
-        git add .
-        git commit -m'Prepare Release ${{ github.run_number }}'
-        git push --set-upstream origin temp-${{ github.run_number }}
-        git push --delete origin release
-        git checkout -b release
-        git push --set-upstream origin release
-        git push --delete origin temp-${{ github.run_number }}
+      - name: Release Unity Package
+        run: |
+          git --version
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git checkout -b ${{ env.TEMP_BRANCH }}          
+          
+          Copy-Item "Strawhenge.Common\Strawhenge.Common\bin\Release\netstandard2.0\Strawhenge.Common.dll" -Destination "Strawhenge.Common.Unity\Assets\Package\Runtime"
+          
+          $package = Get-Content 'Strawhenge.Common.Unity\Assets\Package\package.json' -raw | ConvertFrom-Json
+          $package.version = '${{ env.VERSION }}'
+          $package | ConvertTo-Json | set-content 'Strawhenge.Common.Unity\Assets\Package\package.json'
+          
+          git add Strawhenge.Common.Unity\Assets\Package\Runtime\Strawhenge.Common.dll -f
+          git add Strawhenge.Common.Unity\Assets\Package\package.json
+          git commit -m 'Prepare Release ${{ env.VERSION }}'
+          git push --set-upstream origin ${{ env.TEMP_BRANCH }}
+          
+          git push --delete origin release
+          git checkout -b release
+          git push --set-upstream origin release
+          git push --delete origin ${{ env.TEMP_BRANCH }}
+        env:
+          TEMP_BRANCH: temp-${{ github.run_number }}
+          
+          
