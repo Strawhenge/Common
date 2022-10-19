@@ -5,5 +5,8 @@
   "unity": "2020.3",
   "author": {
     "name": "Matt Bristow"
+  },
+  "dependencies": {
+    "com.strawhenge.functionalutilities": "https://github.com/Strawhenge/FunctionalUtilities.git?path=/Package#release"
   }
 }
