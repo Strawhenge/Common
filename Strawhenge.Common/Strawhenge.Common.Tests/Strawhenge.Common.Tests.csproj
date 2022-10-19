@@ -13,4 +13,8 @@
       <ProjectReference Include="..\Strawhenge.Common\Strawhenge.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Strawhenge.Common.Tests.csproj.DotSettings" />
+    </ItemGroup>
+
 </Project>
