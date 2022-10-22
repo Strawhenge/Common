@@ -174,5 +174,8 @@ MonoBehaviour:
       _range:
         _min: 0
         _max: 100
+      _destination:
+        Toggle: 0
+        Value: {x: 0, y: 0, z: 0}
     _scriptableObject: {fileID: 11400000, guid: 6fc2db81117e5ca4c9552b162ad79401, type: 2}
     _type: 1

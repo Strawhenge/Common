@@ -9,6 +9,7 @@ public class DataScriptableObject : ScriptableObject, IData
     [SerializeField] string _name;
     [SerializeField] bool _isValid;
     [SerializeField] SerializedFloatRange _range;
+    [SerializeField] ValueToggle<Vector3> _destination;
 
     public int Id => _id;
 
@@ -17,4 +18,6 @@ public class DataScriptableObject : ScriptableObject, IData
     public bool IsValid => _isValid;
 
     public FloatRange Range => _range.Value;
+
+    public Vector3? Destination => _destination.TryGetValue(out var destination) ? destination : (Vector3?)null;
 }
