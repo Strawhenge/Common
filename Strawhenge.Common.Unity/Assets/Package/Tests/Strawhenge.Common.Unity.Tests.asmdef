@@ -3,7 +3,8 @@
     "rootNamespace": "Strawhenge.Common.Unity.Tests",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "Strawhenge.Common.Unity"
     ],
     "includePlatforms": [
         "Editor"
