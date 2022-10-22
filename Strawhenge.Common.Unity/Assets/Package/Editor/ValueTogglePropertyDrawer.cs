@@ -11,24 +11,24 @@ namespace Strawhenge.Common.Unity.Editor
 
         static readonly string ValuePropertyName = ValueToggle<int>.ValuePropertyName;
 
-        static readonly string[] menuOptions = new string[]
+        static readonly string[] MenuOptions =
         {
             "Toggle On",
             "Toggle Off"
         };
 
-        GUIStyle menuStyle;
+        GUIStyle _menuStyle;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            menuStyle ??= new GUIStyle(GUI.skin.GetStyle("PaneOptions")) { imagePosition = ImagePosition.ImageOnly };
+            _menuStyle ??= new GUIStyle(GUI.skin.GetStyle("PaneOptions")) { imagePosition = ImagePosition.ImageOnly };
 
             label = EditorGUI.BeginProperty(position, label, property);
             position = EditorGUI.PrefixLabel(position, label);
 
             var menuPosition = new Rect(position);
-            menuPosition.yMin += menuStyle.margin.top;
-            menuPosition.width = menuStyle.fixedWidth + menuStyle.margin.right;
+            menuPosition.yMin += _menuStyle.margin.top;
+            menuPosition.width = _menuStyle.fixedWidth + _menuStyle.margin.right;
             position.xMin = menuPosition.xMax;
 
             int indent = EditorGUI.indentLevel;
@@ -37,7 +37,7 @@ namespace Strawhenge.Common.Unity.Editor
             var valueProperty = property.FindPropertyRelative(ValuePropertyName);
             var toggleProperty = property.FindPropertyRelative(TogglePropertyName);
 
-            var toggle = EditorGUI.Popup(menuPosition, toggleProperty.boolValue ? 0 : 1, menuOptions, menuStyle) == 0;
+            var toggle = EditorGUI.Popup(menuPosition, toggleProperty.boolValue ? 0 : 1, MenuOptions, _menuStyle) == 0;
             toggleProperty.boolValue = toggle;
 
             if (toggle)

@@ -2,7 +2,7 @@
 
 namespace Strawhenge.Common.Unity.Tests.ValueToggle
 {
-    public class BoolValueToggle_Tests : ValueToggle_Tests<bool>
+    public class BoolValueToggleTests : ValueToggleTests<bool>
     {
         protected override IEnumerable<bool> GetValues()
         {

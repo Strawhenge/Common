@@ -2,7 +2,7 @@
 
 namespace Strawhenge.Common.Unity.Tests.ValueToggle
 {
-    public class FloatValueToggle_Tests : ValueToggle_Tests<float>
+    public class FloatValueToggleTests : ValueToggleTests<float>
     {
         protected override IEnumerable<float> GetValues()
         {

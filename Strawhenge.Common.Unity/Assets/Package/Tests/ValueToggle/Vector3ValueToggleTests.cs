@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Tests.ValueToggle
 {
-    public class Vector3ValueToggle_Tests : ValueToggle_Tests<Vector3>
+    public class Vector3ValueToggleTests : ValueToggleTests<Vector3>
     {
         protected override IEnumerable<Vector3> GetValues()
         {
