@@ -8,5 +8,11 @@
   },
   "dependencies": {
     "com.strawhenge.functionalutilities": "https://github.com/Strawhenge/FunctionalUtilities.git?path=/Package#release"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Serialization",
+      "description": "Serialization sample",
+      "path": "Samples~/Serialization"
+    }
 }
