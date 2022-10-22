@@ -167,9 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data:
-    Serialized:
+    _serialized:
       _id: 12
       _name: Something
       _isValid: 1
-    ScriptableObject: {fileID: 11400000, guid: 6fc2db81117e5ca4c9552b162ad79401, type: 2}
-    Type: 1
+    _scriptableObject: {fileID: 11400000, guid: 6fc2db81117e5ca4c9552b162ad79401, type: 2}
+    _type: 2

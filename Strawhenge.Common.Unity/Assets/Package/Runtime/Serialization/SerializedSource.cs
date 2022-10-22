@@ -1,29 +1,30 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Strawhenge.Common.Unity.Serialization
 {
     [Serializable]
-    public class SerializedSource<T, TSerialized, TScriptableObject>
+    public partial class SerializedSource<T, TSerialized, TScriptableObject>
         where T : class
         where TSerialized : T, new()
         where TScriptableObject : ScriptableObject, T
     {
-        public TSerialized Serialized;
-        public TScriptableObject ScriptableObject;
-        public SerializedSourceType Type;
+        [SerializeField] TSerialized _serialized;
+        [SerializeField] TScriptableObject _scriptableObject;
+        [SerializeField] SerializedSourceType _type;
 
         public bool TryGetValue(out T value)
         {
-            switch (Type)
+            switch (_type)
             {
                 case SerializedSourceType.Serialized:
-                    value = Serialized;
-                    return Serialized != null;
+                    value = _serialized;
+                    return _serialized != null;
 
                 case SerializedSourceType.ScriptableObject:
-                    value = ScriptableObject;
-                    return ScriptableObject != null;
+                    value = _scriptableObject;
+                    return _scriptableObject != null;
 
                 case SerializedSourceType.None:
                 default:
@@ -47,12 +48,5 @@ namespace Strawhenge.Common.Unity.Serialization
 
             return getDefault();
         }
-    }
-
-    public enum SerializedSourceType
-    {
-        None = 0,
-        Serialized = 1,
-        ScriptableObject = 2
     }
 }
