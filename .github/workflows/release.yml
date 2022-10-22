@@ -46,6 +46,8 @@ jobs:
           
           git add Strawhenge.Common.Unity\Assets\Package\Runtime\Strawhenge.Common.dll -f
           git add Strawhenge.Common.Unity\Assets\Package\package.json
+          git mv 'Strawhenge.Common.Unity\Assets\Package\Samples' 'Strawhenge.Common.Unity\Assets\Package\Samples~'
+          git rm 'Strawhenge.Common.Unity\Assets\Package\Samples.meta'
           git commit -m 'Prepare Release ${{ env.VERSION }}'
           git push --set-upstream origin ${{ env.TEMP_BRANCH }}
           
