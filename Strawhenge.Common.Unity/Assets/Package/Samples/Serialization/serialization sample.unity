@@ -171,5 +171,8 @@ MonoBehaviour:
       _id: 12
       _name: Something
       _isValid: 1
+      _range:
+        min: 10
+        max: 10
     _scriptableObject: {fileID: 11400000, guid: 6fc2db81117e5ca4c9552b162ad79401, type: 2}
     _type: 1

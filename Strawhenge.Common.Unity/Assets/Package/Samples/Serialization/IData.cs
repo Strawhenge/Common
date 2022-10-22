@@ -1,3 +1,5 @@
+using Strawhenge.Common.Ranges;
+
 public interface IData
 {
     int Id { get; }
@@ -5,4 +7,6 @@ public interface IData
     string Name { get; }
 
     bool IsValid { get; }
+
+    FloatRange Range { get; }
 }
