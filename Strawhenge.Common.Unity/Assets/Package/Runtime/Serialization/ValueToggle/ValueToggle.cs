@@ -1,18 +1,19 @@
 using System;
+using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Serialization
 {
     [Serializable]
-    public class ValueToggle<T> where T : struct
+    public partial class ValueToggle<T> where T : struct
     {
-        public bool Toggle;
-        public T Value;
+        [SerializeField] bool _toggle;
+        [SerializeField] T _value;
 
         public bool TryGetValue(out T value)
         {
-            if (Toggle)
+            if (_toggle)
             {
-                value = Value;
+                value = _value;
                 return true;
             }
             else

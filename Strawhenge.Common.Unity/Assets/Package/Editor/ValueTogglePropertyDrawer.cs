@@ -7,6 +7,10 @@ namespace Strawhenge.Common.Unity.Editor
     [CustomPropertyDrawer(typeof(ValueToggle<>))]
     public class ValueTogglePropertyDrawer : PropertyDrawer
     {
+        static readonly string TogglePropertyName = ValueToggle<int>.TogglePropertyName;
+
+        static readonly string ValuePropertyName = ValueToggle<int>.ValuePropertyName;
+
         static readonly string[] menuOptions = new string[]
         {
             "Toggle On",
@@ -30,8 +34,8 @@ namespace Strawhenge.Common.Unity.Editor
             int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            var valueProperty = property.FindPropertyRelative(nameof(ValueToggle<bool>.Value));
-            var toggleProperty = property.FindPropertyRelative(nameof(ValueToggle<bool>.Toggle));
+            var valueProperty = property.FindPropertyRelative(ValuePropertyName);
+            var toggleProperty = property.FindPropertyRelative(TogglePropertyName);
 
             var toggle = EditorGUI.Popup(menuPosition, toggleProperty.boolValue ? 0 : 1, menuOptions, menuStyle) == 0;
             toggleProperty.boolValue = toggle;
