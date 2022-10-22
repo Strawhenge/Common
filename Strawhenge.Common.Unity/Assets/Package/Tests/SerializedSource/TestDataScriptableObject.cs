@@ -3,13 +3,17 @@ using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Tests
 {
-    public partial class SerializedSource_Tests
+    public partial class SerializedSourceTests
     {
         class TestDataScriptableObject : ScriptableObject, ITestData
         {
-            public Guid Id;
+            [SerializeField] Guid _id;
 
-            Guid ITestData.Id => Id;
+            public Guid Id
+            {
+                get => _id;
+                set => _id = value;
+            }
         }
     }
 }

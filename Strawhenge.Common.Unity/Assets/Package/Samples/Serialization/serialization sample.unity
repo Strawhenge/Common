@@ -172,4 +172,4 @@ MonoBehaviour:
       _name: Something
       _isValid: 1
     _scriptableObject: {fileID: 11400000, guid: 6fc2db81117e5ca4c9552b162ad79401, type: 2}
-    _type: 2
+    _type: 1

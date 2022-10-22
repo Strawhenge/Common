@@ -2,7 +2,7 @@
 
 namespace Strawhenge.Common.Unity.Tests
 {
-    public partial class SerializedSource_Tests
+    public partial class SerializedSourceTests
     {
         class TestData : ITestData
         {

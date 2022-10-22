@@ -5,33 +5,33 @@ using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Tests
 {
-    public partial class SerializedSource_Tests
+    public partial class SerializedSourceTests
     {
-        readonly TestData serialized;
-        readonly TestDataScriptableObject scriptableObject;
-        readonly SerializedSource<ITestData, TestData, TestDataScriptableObject> sut;
+        readonly TestData _serialized;
+        readonly TestDataScriptableObject _scriptableObject;
+        readonly SerializedSource<ITestData, TestData, TestDataScriptableObject> _sut;
 
-        public SerializedSource_Tests()
+        public SerializedSourceTests()
         {
-            serialized = new TestData();
-            scriptableObject = (TestDataScriptableObject)ScriptableObject.CreateInstance(typeof(TestDataScriptableObject));
+            _serialized = new TestData();
+            _scriptableObject = (TestDataScriptableObject)ScriptableObject.CreateInstance(typeof(TestDataScriptableObject));
 
-            sut = new SerializedSource<ITestData, TestData, TestDataScriptableObject>();
+            _sut = new SerializedSource<ITestData, TestData, TestDataScriptableObject>();
         }
 
         [SetUp]
         public void Setup()
         {
-            serialized.Id = Guid.NewGuid();
-            scriptableObject.Id = Guid.NewGuid();
+            _serialized.Id = Guid.NewGuid();
+            _scriptableObject.Id = Guid.NewGuid();
         }
 
         [TearDown]
         public void TearDown()
         {
-            sut.Type = SerializedSourceType.None;
-            sut.Serialized = null;
-            sut.ScriptableObject = null;
+            _sut.Type = SerializedSourceType.None;
+            _sut.Serialized = null;
+            _sut.ScriptableObject = null;
         }
 
         [Test]
@@ -41,15 +41,15 @@ namespace Strawhenge.Common.Unity.Tests
         [TestCase(true, true)]
         public void TryGetValue_WhenSourceTypeIsNone_ShouldReturnFalse(bool setSerialized, bool setScriptableObject)
         {
-            sut.Type = SerializedSourceType.None;
+            _sut.Type = SerializedSourceType.None;
 
             if (setSerialized)
-                sut.Serialized = serialized;
+                _sut.Serialized = _serialized;
 
             if (setScriptableObject)
-                sut.ScriptableObject = scriptableObject;
+                _sut.ScriptableObject = _scriptableObject;
 
-            var result = sut.TryGetValue(out var value);
+            var result = _sut.TryGetValue(out var value);
 
             Assert.False(result);
             Assert.Null(value);
@@ -60,12 +60,12 @@ namespace Strawhenge.Common.Unity.Tests
         [TestCase(true)]
         public void TryGetValue_WhenSourceIsSerialized_ShouldReturnFalse(bool setScriptableObject)
         {
-            sut.Type = SerializedSourceType.Serialized;
+            _sut.Type = SerializedSourceType.Serialized;
 
             if (setScriptableObject)
-                sut.ScriptableObject = scriptableObject;
+                _sut.ScriptableObject = _scriptableObject;
 
-            var result = sut.TryGetValue(out var value);
+            var result = _sut.TryGetValue(out var value);
 
             Assert.False(result);
             Assert.Null(value);
@@ -76,16 +76,16 @@ namespace Strawhenge.Common.Unity.Tests
         [TestCase(true)]
         public void TryGetValue_WhenSourceIsSerialized_ShouldReturnTrue(bool setScriptableObject)
         {
-            sut.Type = SerializedSourceType.Serialized;
-            sut.Serialized = serialized;
+            _sut.Type = SerializedSourceType.Serialized;
+            _sut.Serialized = _serialized;
 
             if (setScriptableObject)
-                sut.ScriptableObject = scriptableObject;
+                _sut.ScriptableObject = _scriptableObject;
 
-            var result = sut.TryGetValue(out var value);
+            var result = _sut.TryGetValue(out var value);
 
             Assert.True(result);
-            Assert.AreEqual(serialized.Id, value.Id);
+            Assert.AreEqual(_serialized.Id, value.Id);
         }
 
         [Test]
@@ -93,12 +93,12 @@ namespace Strawhenge.Common.Unity.Tests
         [TestCase(true)]
         public void TryGetValue_WhenSourceIsScriptableObject_ShouldReturnFalse(bool setSerialized)
         {
-            sut.Type = SerializedSourceType.ScriptableObject;
+            _sut.Type = SerializedSourceType.ScriptableObject;
 
             if (setSerialized)
-                sut.Serialized = serialized;
+                _sut.Serialized = _serialized;
 
-            var result = sut.TryGetValue(out var value);
+            var result = _sut.TryGetValue(out var value);
 
             Assert.False(result);
             Assert.Null(value);
@@ -109,16 +109,16 @@ namespace Strawhenge.Common.Unity.Tests
         [TestCase(true)]
         public void TryGetValue_WhenSourceIsScriptableObject_ShouldReturnTrue(bool setSerialized)
         {
-            sut.Type = SerializedSourceType.ScriptableObject;
-            sut.ScriptableObject = scriptableObject;
+            _sut.Type = SerializedSourceType.ScriptableObject;
+            _sut.ScriptableObject = _scriptableObject;
 
             if (setSerialized)
-                sut.Serialized = serialized;
+                _sut.Serialized = _serialized;
 
-            var result = sut.TryGetValue(out var value);
+            var result = _sut.TryGetValue(out var value);
 
             Assert.True(result);
-            Assert.AreEqual(scriptableObject.Id, value.Id);
+            Assert.AreEqual(_scriptableObject.Id, value.Id);
         }
     }
 }
