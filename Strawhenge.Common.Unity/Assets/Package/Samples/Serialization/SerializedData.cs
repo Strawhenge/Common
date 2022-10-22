@@ -17,5 +17,5 @@ public class SerializedData : IData
 
     public bool IsValid => _isValid;
 
-    public FloatRange Range => (FloatRange)_range;
+    public FloatRange Range => _range.Value;
 }

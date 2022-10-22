@@ -15,3 +15,6 @@ MonoBehaviour:
   _id: 5
   _name: Test
   _isValid: 0
+  _range:
+    _min: 25
+    _max: 30
