@@ -351,10 +351,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64d412cbb4b7689429baac408761f59a, type: 2}
   _eventContainers:
   - _event: {fileID: 11400000, guid: 5a50fcf4b2ddf7c42b8f753cfda5387e, type: 2}
-    _overrideGameObject: 1
     _gameObject: {fileID: 680233833}
   - _event: {fileID: 11400000, guid: fb5fa2f1f00f5174aa4a2e8d319af204, type: 2}
-    _overrideGameObject: 1
     _gameObject: {fileID: 1950518569}
 --- !u!1 &1950518569
 GameObject:
