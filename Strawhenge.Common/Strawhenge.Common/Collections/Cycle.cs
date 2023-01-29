@@ -26,6 +26,16 @@ namespace Strawhenge.Common.Collections
                 .ToArray();
         }
 
+        public Cycle(IEnumerable<T> items)
+        {
+            if (items == null) throw new ArgumentNullException(nameof(items));
+
+            _all = items.ToArray();
+            if (_all.Length == 0) throw new ArgumentException("Collection must not be empty.", nameof(items));
+
+            _currentIndex = 0;
+        }
+
         public T Current => _all[_currentIndex];
 
         public T Next()
