@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Strawhenge.Common.Unity.AnimatorBehaviours
@@ -12,8 +14,7 @@ namespace Strawhenge.Common.Unity.AnimatorBehaviours
         readonly Animator _animator;
         readonly Action<T> _subscribe;
         readonly Action<T> _unsubscribe;
-
-        T _stateMachine;
+        readonly List<T> _stateMachines = new List<T>();
 
         public StateMachineEvents(Animator animator, Action<T> subscribe, Action<T> unsubscribe)
         {
@@ -28,23 +29,31 @@ namespace Strawhenge.Common.Unity.AnimatorBehaviours
         /// <exception cref="MissingStateMachineBehaviourException">Throws if the StateMachineBehaviour is not found on the animator.</exception>
         public void PrepareIfRequired()
         {
-            if (ReferenceEquals(_stateMachine, null))
+            if (_stateMachines.Any())
+                return;
+
+            var stateMachines = _animator.GetBehaviours<T>();
+
+            if (!stateMachines.Any())
+                throw new MissingStateMachineBehaviourException(typeof(T));
+
+            _stateMachines.AddRange(stateMachines);
+            _stateMachines.ForEach(stateMachine =>
             {
-                _stateMachine = _animator.GetBehaviour<T>();
-
-                if (_stateMachine == null)
-                    throw new MissingStateMachineBehaviourException(typeof(T));
-
-                _subscribe(_stateMachine);
-                _stateMachine.Destroyed += OnStateMachineDestroyed;
-            }
+                _subscribe(stateMachine);
+                stateMachine.Destroyed += OnStateMachineDestroyed;
+            });
         }
 
         void OnStateMachineDestroyed()
         {
-            _stateMachine.Destroyed -= OnStateMachineDestroyed;
-            _unsubscribe(_stateMachine);
-            _stateMachine = null;
+            foreach (var stateMachine in _stateMachines)
+            {
+                stateMachine.Destroyed -= OnStateMachineDestroyed;
+                _unsubscribe(stateMachine);
+            }
+
+            _stateMachines.Clear();
         }
     }
 }
