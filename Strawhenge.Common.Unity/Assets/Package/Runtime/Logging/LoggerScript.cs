@@ -10,7 +10,7 @@ namespace Strawhenge.Common.Unity
 
         public LogLevelsDecorator LogLevelsDecorator { private get; set; }
 
-        void Start()
+        void OnEnable()
         {
             LogLevelsDecorator.LogLevel = _logLevel;
         }
