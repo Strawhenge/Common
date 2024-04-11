@@ -8,23 +8,17 @@ namespace Strawhenge.Common.Unity
     {
         [SerializeField] LogLevel _logLevel = LogLevel.All;
 
-        public LogLevel LogLevel
-        {
-            get => _logLevel;
-            set
-            {
-                _logLevel = value;
-
-                if (LogLevelsDecorator != null)
-                    LogLevelsDecorator.LogLevel = _logLevel;
-            }
-        }
-
         public LogLevelsDecorator LogLevelsDecorator { private get; set; }
 
         void Start()
         {
             LogLevelsDecorator.LogLevel = _logLevel;
+        }
+
+        void Update()
+        {
+            if (_logLevel != LogLevelsDecorator.LogLevel)
+                LogLevelsDecorator.LogLevel = _logLevel;
         }
 
         public void LogInformation(string message) => LogLevelsDecorator.LogInformation(message);

@@ -19,12 +19,9 @@ namespace Strawhenge.Common.Unity.Editor
 
         public override void OnInspectorGUI()
         {
-            var logLevel = (LogLevel)EditorGUILayout.EnumFlagsField("Log Level", _target.LogLevel);
+            base.OnInspectorGUI();
 
-            if (logLevel != _target.LogLevel)
-                _target.LogLevel = logLevel;
-
-            _foldoutLogMessages = EditorGUILayout.Foldout(_foldoutLogMessages, "Log Messages");
+            _foldoutLogMessages = EditorGUILayout.Foldout(_foldoutLogMessages, "Messages");
             if (_foldoutLogMessages)
             {
                 EditorGUI.BeginDisabledGroup(!Application.isPlaying);
