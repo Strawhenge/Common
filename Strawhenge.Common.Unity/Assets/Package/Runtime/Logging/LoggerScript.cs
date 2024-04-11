@@ -6,7 +6,7 @@ namespace Strawhenge.Common.Unity
 {
     public class LoggerScript : MonoBehaviour
     {
-        [SerializeField] LogLevel _logLevel;
+        [SerializeField] LogLevel _logLevel = LogLevel.All;
 
         public LogLevel LogLevel
         {
