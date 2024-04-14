@@ -4,9 +4,10 @@ namespace Strawhenge.Common.Unity
 {
     public static class CameraExtensions
     {
-        public static bool IsVisible(this Camera camera, Transform transform) => camera.IsVisible(transform.position);
+        public static bool IsVisible(this UnityEngine.Camera camera, Transform transform) =>
+            camera.IsVisible(transform.position);
 
-        public static bool IsVisible(this Camera camera, Vector3 point)
+        public static bool IsVisible(this UnityEngine.Camera camera, Vector3 point)
         {
             var pointToScreen = camera.WorldToViewportPoint(point);
 
