@@ -8,6 +8,10 @@
         <RepositoryUrl>https://github.com/Strawhenge/Common.git</RepositoryUrl>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FunctionalUtilities" Version="1.1.32" />
+    </ItemGroup>
+
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Condition="'$(SolutionDir)' != '*Undefined*'" Command="xcopy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\..\Strawhenge.Common.Unity\Assets\Package\Runtime&quot;" />
     </Target>
