@@ -16,25 +16,27 @@ namespace Strawhenge.Common.Collections
 
         public Cycle(T initial, IEnumerable<T> others)
         {
-            if (initial == null) throw new ArgumentNullException(nameof(initial));
-            if (others == null) throw new ArgumentNullException(nameof(others));
+            if (initial == null)
+                throw new ArgumentNullException(nameof(initial));
+            if (others == null)
+                throw new ArgumentNullException(nameof(others));
 
-            _currentIndex = 0;
-
-            _all = new[] { initial }
-                .Concat(others)
+            _all = others
+                .Prepend(initial)
                 .ToArray();
         }
 
         public Cycle(IEnumerable<T> items)
         {
-            if (items == null) throw new ArgumentNullException(nameof(items));
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
 
             _all = items.ToArray();
-            if (_all.Length == 0) throw new ArgumentException("Collection must not be empty.", nameof(items));
-
-            _currentIndex = 0;
+            if (_all.Length == 0)
+                throw new ArgumentException("Collection must not be empty.", nameof(items));
         }
+
+        public int Count => _all.Length;
 
         public T Current => _all[_currentIndex];
 
