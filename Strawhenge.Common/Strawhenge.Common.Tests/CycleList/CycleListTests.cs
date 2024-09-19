@@ -97,12 +97,31 @@ namespace Strawhenge.Common.Tests
         {
             _items[3].IsEnabled = true;
             _cycleList.Next();
-            
+
             _items[4].IsEnabled = true;
             var result = _cycleList.Next();
 
             Assert.True(result.HasSome(out var item));
             Assert.Same(_items[4], item);
+        }
+
+        [Fact]
+        public void Next_should_return_new_added_item_in_sequence_when_predicate_matches()
+        {
+            var newItem = new SampleItem() { IsEnabled = true };
+
+            _items[1].IsEnabled = true;
+            _items[2].IsEnabled = true;
+
+            _cycleList.Next();
+            _cycleList.Next();
+
+            _cycleList.Add(newItem);
+
+            var result = _cycleList.Next();
+
+            Assert.True(result.HasSome(out var item));
+            Assert.Same(newItem, item);
         }
     }
 }

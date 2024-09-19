@@ -8,7 +8,7 @@ namespace Strawhenge.Common.Collections
     public class CycleList<T>
     {
         readonly Func<T, bool> _predicate;
-        readonly T[] _items;
+        readonly List<T> _items;
         int _currentIndex;
 
         public CycleList(Func<T, bool> predicate, params T[] items) : this(predicate, items.AsEnumerable())
@@ -22,13 +22,15 @@ namespace Strawhenge.Common.Collections
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
-            _items = items.ToArray();
-
-            if (_items.Length == 0)
-                throw new ArgumentException($"'{nameof(items)}' cannot be empty.", nameof(items));
+            _items = items.ToList();
         }
 
-        public int Count => _items.Length;
+        public int Count => _items.Count;
+
+        public void Add(T item)
+        {
+            _items.Add(item);
+        }
 
         public Maybe<T> Next()
         {
@@ -45,7 +47,7 @@ namespace Strawhenge.Common.Collections
                 {
                     _currentIndex++;
 
-                    if (_currentIndex >= _items.Length)
+                    if (_currentIndex >= _items.Count)
                         _currentIndex = 0;
                 }
             }
