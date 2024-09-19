@@ -5,17 +5,17 @@ using FunctionalUtilities;
 
 namespace Strawhenge.Common.Collections
 {
-    public class PredicatedCycle<T>
+    public class CycleList<T>
     {
         readonly Func<T, bool> _predicate;
         readonly T[] _items;
         int _currentIndex;
 
-        public PredicatedCycle(Func<T, bool> predicate, params T[] items) : this(predicate, items.AsEnumerable())
+        public CycleList(Func<T, bool> predicate, params T[] items) : this(predicate, items.AsEnumerable())
         {
         }
 
-        public PredicatedCycle(Func<T, bool> predicate, IEnumerable<T> items)
+        public CycleList(Func<T, bool> predicate, IEnumerable<T> items)
         {
             _predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
 

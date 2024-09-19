@@ -4,16 +4,16 @@ using Xunit;
 
 namespace Strawhenge.Common.Tests
 {
-    public class PredicatedCycleTests
+    public class CycleListTests
     {
         readonly SampleItem[] _items;
-        readonly PredicatedCycle<SampleItem> _cycle;
+        readonly CycleList<SampleItem> _cycleList;
 
-        public PredicatedCycleTests()
+        public CycleListTests()
         {
             _items = Enumerable.Range(0, 5).ToArray(_ => new SampleItem());
 
-            _cycle = new PredicatedCycle<SampleItem>(item => item.IsEnabled, _items);
+            _cycleList = new CycleList<SampleItem>(item => item.IsEnabled, _items);
         }
 
         class SampleItem
@@ -24,7 +24,7 @@ namespace Strawhenge.Common.Tests
         [Fact]
         public void Next_should_return_none_when_all_fail_predicate()
         {
-            var item = _cycle.Next();
+            var item = _cycleList.Next();
 
             Assert.False(item.HasSome());
         }
@@ -36,7 +36,7 @@ namespace Strawhenge.Common.Tests
 
             for (int i = 0; i < _items.Length; i++)
             {
-                var result = _cycle.Next();
+                var result = _cycleList.Next();
 
                 Assert.True(result.HasSome(out var item));
                 Assert.Same(_items[i], item);
@@ -50,12 +50,12 @@ namespace Strawhenge.Common.Tests
 
             for (int i = 0; i < _items.Length; i++)
             {
-                _cycle.Next();
+                _cycleList.Next();
             }
 
             for (int i = 0; i < _items.Length; i++)
             {
-                var result = _cycle.Next();
+                var result = _cycleList.Next();
 
                 Assert.True(result.HasSome(out var item));
                 Assert.Same(_items[i], item);
@@ -68,7 +68,7 @@ namespace Strawhenge.Common.Tests
             _items[3].IsEnabled = true;
             _items[4].IsEnabled = true;
 
-            var result = _cycle.Next();
+            var result = _cycleList.Next();
 
             Assert.True(result.HasSome(out var item));
             Assert.Same(_items[3], item);
@@ -85,7 +85,7 @@ namespace Strawhenge.Common.Tests
 
             foreach (var expectedItemIndex in expectedSequence)
             {
-                var result = _cycle.Next();
+                var result = _cycleList.Next();
 
                 Assert.True(result.HasSome(out var item));
                 Assert.Same(_items[expectedItemIndex], item);
@@ -96,10 +96,10 @@ namespace Strawhenge.Common.Tests
         public void Next_should_return_item_to_newly_pass_predicate_when_last_item_was_previous_index()
         {
             _items[3].IsEnabled = true;
-            _cycle.Next();
+            _cycleList.Next();
             
             _items[4].IsEnabled = true;
-            var result = _cycle.Next();
+            var result = _cycleList.Next();
 
             Assert.True(result.HasSome(out var item));
             Assert.Same(_items[4], item);
