@@ -7,30 +7,31 @@ namespace Strawhenge.Common.Collections
 {
     public class CycleList<T>
     {
-        readonly Func<T, bool> _predicate;
         readonly List<T> _items;
+        readonly Func<T, bool> _predicate;
         int _currentIndex;
 
-        public CycleList(Func<T, bool> predicate, params T[] items) : this(predicate, items.AsEnumerable())
+        public CycleList(int? capacity = null, Func<T, bool> predicate = null)
         {
+            _items = capacity.HasValue
+                ? new List<T>(capacity.Value)
+                : new List<T>();
+            _predicate = predicate ?? (_ => true);
         }
 
-        public CycleList(Func<T, bool> predicate, IEnumerable<T> items)
+        public CycleList(IEnumerable<T> items, Func<T, bool> predicate = null)
         {
-            _predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
-
-            if (items == null)
-                throw new ArgumentNullException(nameof(items));
-
-            _items = items.ToList();
+            _items = items == null
+                ? new List<T>()
+                : items.ToList();
+            _predicate = predicate ?? (_ => true);
         }
 
         public int Count => _items.Count;
 
-        public void Add(T item)
-        {
-            _items.Add(item);
-        }
+        public void Add(T item) => _items.Add(item);
+
+        public void Add(IEnumerable<T> items) => _items.AddRange(items);
 
         public Maybe<T> Next()
         {
@@ -56,6 +57,6 @@ namespace Strawhenge.Common.Collections
             return Maybe.None<T>();
         }
 
-        public IEnumerable<T> AsEnumerable() => _items.ToArray();
+        public IEnumerable<T> ToArray() => _items.ToArray();
     }
 }

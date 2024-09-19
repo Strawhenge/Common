@@ -13,7 +13,7 @@ namespace Strawhenge.Common.Tests
         {
             _items = Enumerable.Range(0, 5).ToArray(_ => new SampleItem());
 
-            _cycleList = new CycleList<SampleItem>(item => item.IsEnabled, _items);
+            _cycleList = new CycleList<SampleItem>(_items, item => item.IsEnabled);
         }
 
         class SampleItem
