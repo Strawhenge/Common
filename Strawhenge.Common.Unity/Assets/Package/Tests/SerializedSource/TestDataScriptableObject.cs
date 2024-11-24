@@ -7,13 +7,7 @@ namespace Strawhenge.Common.Unity.Tests
     {
         class TestDataScriptableObject : ScriptableObject, ITestData
         {
-            [SerializeField] Guid _id;
-
-            public Guid Id
-            {
-                get => _id;
-                set => _id = value;
-            }
+            public Guid Id { get; set; }
         }
     }
 }

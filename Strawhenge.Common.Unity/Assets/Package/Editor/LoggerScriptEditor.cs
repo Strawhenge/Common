@@ -1,5 +1,4 @@
 using System;
-using Strawhenge.Common.Logging;
 using UnityEditor;
 using UnityEngine;
 

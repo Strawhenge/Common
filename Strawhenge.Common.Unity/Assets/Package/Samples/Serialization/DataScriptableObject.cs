@@ -19,5 +19,5 @@ public class DataScriptableObject : ScriptableObject, IData
 
     public FloatRange Range => _range.Value;
 
-    public Vector3? Destination => _destination.TryGetValue(out var destination) ? destination : (Vector3?)null;
+    public Vector3? Destination => _destination.TryGetValue(out var destination) ? destination : null;
 }
