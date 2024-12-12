@@ -15,7 +15,7 @@ namespace Strawhenge.Common.Unity.Editor
 
             foreach (var gameObject in allGameObjects)
             {
-                if (!PrefabUtility.IsAnyPrefabInstanceRoot(gameObject))
+                if (gameObject == null || !PrefabUtility.IsAnyPrefabInstanceRoot(gameObject))
                     continue;
 
                 foreach (var mapping in prefabMapping)
