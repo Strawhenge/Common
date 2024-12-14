@@ -22,6 +22,13 @@ namespace Strawhenge.Common.Tests
         }
 
         [Fact]
+        public void Next_should_return_none_when_cycle_contains_no_items()
+        {
+            var item = new CycleList<object>().Next();
+            Assert.False(item.HasSome());
+        }
+
+        [Fact]
         public void Next_should_return_none_when_all_fail_predicate()
         {
             var item = _cycleList.Next();

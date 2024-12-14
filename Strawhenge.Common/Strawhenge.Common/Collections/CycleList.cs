@@ -35,6 +35,9 @@ namespace Strawhenge.Common.Collections
 
         public Maybe<T> Next()
         {
+            if (!_items.Any())
+                return Maybe.None<T>();
+
             var startingIndex = _currentIndex;
 
             do
