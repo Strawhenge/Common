@@ -8,6 +8,10 @@ namespace Strawhenge.Common.Unity
     {
         readonly GameObject _gameObject;
 
+        public UnityLogger()
+        {
+        }
+        
         public UnityLogger(GameObject gameObject)
         {
             _gameObject = gameObject;
