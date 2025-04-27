@@ -6,14 +6,13 @@
         "UnityEditor.TestRunner",
         "Strawhenge.Common.Unity"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "FunctionalUtilities.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
