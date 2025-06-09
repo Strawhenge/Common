@@ -1,13 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Serialization
 {
     [Serializable]
-    public class SerializedList<T> where T : Component
+    public partial class SerializedList<T> where T : Component
     {
         [SerializeField] T[] _values;
-        
-        internal static string ValuesPropertyName => nameof(_values);
+
+        public IReadOnlyList<T> Values => _values;
     }
 }
