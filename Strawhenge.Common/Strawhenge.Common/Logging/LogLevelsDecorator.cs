@@ -5,13 +5,15 @@ namespace Strawhenge.Common.Logging
     public class LogLevelsDecorator : ILogger
     {
         readonly ILogger _innerLogger;
+        readonly Func<LogLevel> _getLogLevel;
 
-        public LogLevel LogLevel { get; set; } = LogLevel.All;
-
-        public LogLevelsDecorator(ILogger innerLogger)
+        public LogLevelsDecorator(ILogger innerLogger, Func<LogLevel> getLogLevel)
         {
             _innerLogger = innerLogger;
+            _getLogLevel = getLogLevel;
         }
+        
+        LogLevel LogLevel => _getLogLevel();
 
         public void LogInformation(string message)
         {

@@ -12,13 +12,13 @@ namespace Strawhenge.Common.Unity
 
         void OnEnable()
         {
-            LogLevelsDecorator.LogLevel = _logLevel;
+            //LogLevelsDecorator.LogLevel = _logLevel;
         }
 
         void Update()
         {
-            if (_logLevel != LogLevelsDecorator.LogLevel)
-                LogLevelsDecorator.LogLevel = _logLevel;
+            // if (_logLevel != LogLevelsDecorator.LogLevel)
+            //     LogLevelsDecorator.LogLevel = _logLevel;
         }
 
         public void LogInformation(string message) => LogLevelsDecorator.LogInformation(message);

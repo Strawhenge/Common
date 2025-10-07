@@ -15,16 +15,18 @@ namespace Strawhenge.Common.Tests.Logging
         readonly Mock<ILogger> _innerLogger;
         readonly LogLevelsDecorator _decorator;
 
+        LogLevel _logLevel;
+        
         public LogLevelsDecoratorTests()
         {
             _innerLogger = new Mock<ILogger>();
-            _decorator = new LogLevelsDecorator(_innerLogger.Object);
+            _decorator = new LogLevelsDecorator(_innerLogger.Object, () => _logLevel);
         }
 
         [Fact]
         public void Should_send_log_messages_to_all_when_log_level_is_all()
         {
-            _decorator.LogLevel = LogLevel.All;
+            _logLevel = LogLevel.All;
 
             PerformLogging();
 
@@ -38,7 +40,7 @@ namespace Strawhenge.Common.Tests.Logging
         [Fact]
         public void Should_not_send_log_messages_to_any_when_log_level_is_none()
         {
-            _decorator.LogLevel = LogLevel.None;
+            _logLevel = LogLevel.None;
 
             PerformLogging();
 
@@ -52,7 +54,7 @@ namespace Strawhenge.Common.Tests.Logging
         [Fact]
         public void Should_only_send_log_message_to_error_and_exception_when_log_level_is_error()
         {
-            _decorator.LogLevel = LogLevel.Error;
+            _logLevel = LogLevel.Error;
 
             PerformLogging();
 
