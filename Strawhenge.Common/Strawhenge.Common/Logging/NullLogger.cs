@@ -4,6 +4,12 @@ namespace Strawhenge.Common.Logging
 {
     public class NullLogger : ILogger
     {
+        public static NullLogger Instance { get; } = new NullLogger();
+
+        NullLogger()
+        {
+        }
+
         public void LogInformation(string message)
         {
         }
