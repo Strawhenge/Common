@@ -1,6 +1,6 @@
-using System;
 using Strawhenge.Common.Logging;
 using UnityEngine;
+using ILogger = Strawhenge.Common.Logging.ILogger;
 
 namespace Strawhenge.Common.Unity
 {
@@ -8,25 +8,20 @@ namespace Strawhenge.Common.Unity
     {
         [SerializeField] LogLevel _logLevel = LogLevel.All;
 
-        public LogLevelsDecorator LogLevelsDecorator { private get; set; }
+        ILogger _logger;
 
-        void OnEnable()
+        public ILogger Logger => _logger ??= CreateLogger();
+
+        void Awake()
         {
-            LogLevelsDecorator.LogLevel = _logLevel;
+            _logger ??= CreateLogger();
         }
 
-        void Update()
+        ILogger CreateLogger()
         {
-            if (_logLevel != LogLevelsDecorator.LogLevel)
-                LogLevelsDecorator.LogLevel = _logLevel;
+            return new LogLevelsDecorator(
+                innerLogger: new UnityLogger(gameObject),
+                getLogLevel: () => _logLevel);
         }
-
-        public void LogInformation(string message) => LogLevelsDecorator.LogInformation(message);
-
-        public void LogWarning(string message) => LogLevelsDecorator.LogWarning(message);
-
-        public void LogError(string message) => LogLevelsDecorator.LogError(message);
-
-        public void LogException(Exception exception) => LogLevelsDecorator.LogException(exception);
     }
 }

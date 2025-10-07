@@ -30,16 +30,16 @@ namespace Strawhenge.Common.Unity.Editor
                 EditorGUILayout.BeginHorizontal();
 
                 if (GUILayout.Button("Information"))
-                    _target.LogInformation(_message);
+                    _target.Logger.LogInformation(_message);
 
                 if (GUILayout.Button("Warning"))
-                    _target.LogWarning(_message);
+                    _target.Logger.LogWarning(_message);
 
                 if (GUILayout.Button("Error"))
-                    _target.LogError(_message);
+                    _target.Logger.LogError(_message);
 
                 if (GUILayout.Button("Exception"))
-                    _target.LogException(new Exception(_message));
+                    _target.Logger.LogException(new Exception(_message));
 
                 EditorGUILayout.EndHorizontal();
                 EditorGUI.EndDisabledGroup();

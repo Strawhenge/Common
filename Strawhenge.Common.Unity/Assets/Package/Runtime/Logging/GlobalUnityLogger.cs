@@ -4,33 +4,32 @@ using ILogger = Strawhenge.Common.Logging.ILogger;
 
 namespace Strawhenge.Common.Unity
 {
-    public class UnityLogger : ILogger
+    public class GlobalUnityLogger : ILogger
     {
-        readonly GameObject _gameObject;
+        public static GlobalUnityLogger Instance { get; } = new();
 
-        public UnityLogger(GameObject gameObject)
+        GlobalUnityLogger()
         {
-            _gameObject = gameObject;
         }
 
         public void LogInformation(string message)
         {
-            Debug.Log(message, _gameObject);
+            Debug.Log(message);
         }
 
         public void LogWarning(string message)
         {
-            Debug.LogWarning(message, _gameObject);
+            Debug.LogWarning(message);
         }
 
         public void LogError(string message)
         {
-            Debug.LogError(message, _gameObject);
+            Debug.LogError(message);
         }
 
         public void LogException(Exception exception)
         {
-            Debug.LogException(exception, _gameObject);
+            Debug.LogException(exception);
         }
     }
 }
