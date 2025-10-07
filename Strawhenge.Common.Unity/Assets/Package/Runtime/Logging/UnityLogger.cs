@@ -17,16 +17,6 @@ namespace Strawhenge.Common.Unity
             _gameObject = gameObject;
         }
 
-        public void LogError(string message)
-        {
-            Debug.LogError(message, _gameObject);
-        }
-
-        public void LogException(Exception exception)
-        {
-            Debug.LogException(exception, _gameObject);
-        }
-
         public void LogInformation(string message)
         {
             Debug.Log(message, _gameObject);
@@ -35,6 +25,16 @@ namespace Strawhenge.Common.Unity
         public void LogWarning(string message)
         {
             Debug.LogWarning(message, _gameObject);
+        }
+
+        public void LogError(string message)
+        {
+            Debug.LogError(message, _gameObject);
+        }
+
+        public void LogException(Exception exception)
+        {
+            Debug.LogException(exception, _gameObject);
         }
     }
 }
