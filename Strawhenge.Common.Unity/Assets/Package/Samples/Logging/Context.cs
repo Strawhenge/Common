@@ -12,11 +12,11 @@ public class Context : MonoBehaviour
 
     void Awake()
     {
-        var unityLogger = new UnityLogger(gameObject);
-        var decorator = new LogLevelsDecorator(unityLogger);
-
-        _loggerScript.LogLevelsDecorator = decorator;
-        _logger = decorator;
+        // var unityLogger = new UnityLogger(gameObject);
+        // var decorator = new LogLevelsDecorator(unityLogger);
+        //
+        // _loggerScript.LogLevelsDecorator = decorator;
+        // _logger = decorator;
     }
 
     void Update()
