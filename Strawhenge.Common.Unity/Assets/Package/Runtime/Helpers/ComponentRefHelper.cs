@@ -37,7 +37,7 @@ namespace Strawhenge.Common.Unity.Helpers
             if (component != null)
                 return;
 
-            var root = component.transform.root.gameObject;
+            var root = context.transform.root.gameObject;
             component =
                 root.GetComponentInChildren<T>() ??
                 root.GetComponentInChildren<T>(includeInactive: true);
