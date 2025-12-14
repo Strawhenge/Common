@@ -8,60 +8,13 @@ namespace Strawhenge.Common.Unity.Editor
 {
     static class Proposals
     {
-        public static IReadOnlyList<GameObjectProposal> Create(
-            IEnumerable<GameObject> gameObjects)
+        public static IReadOnlyList<GameObjectProposal> Create(IEnumerable<GameObject> gameObjects)
         {
             var gameObjectProposals = new List<GameObjectProposal>();
 
-            foreach (var gameObject in gameObjects)
+            foreach (var gameObject in gameObjects.ExcludeNull())
             {
-                if (gameObject == null)
-                    continue;
-
-                var scriptProposals = new List<ScriptProposal>();
-
-                var monoBehaviours = gameObject.GetComponentsInChildren<MonoBehaviour>(includeInactive: true);
-                foreach (var monoBehaviour in monoBehaviours)
-                {
-                    var serializedObject = new SerializedObject(monoBehaviour);
-                    var serializedProperty = serializedObject.GetIterator();
-
-                    var fieldProposals = new List<FieldProposal>();
-
-                    while (serializedProperty.NextVisible(enterChildren: true))
-                    {
-                        if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference)
-                            continue;
-
-                        if (serializedProperty.objectReferenceValue != null)
-                            continue;
-
-                        var fieldInfo = monoBehaviour
-                            .GetType()
-                            .GetField(
-                                serializedProperty.name,
-                                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-                        if (fieldInfo == null || !typeof(Component).IsAssignableFrom(fieldInfo.FieldType))
-                            continue;
-
-                        var match = gameObject.GetComponentInChildren(fieldInfo.FieldType, includeInactive: true);
-
-                        if (match != null)
-                            fieldProposals.Add(new FieldProposal
-                            {
-                                FieldName = serializedProperty.name,
-                                Value = match
-                            });
-                    }
-
-                    if (fieldProposals.Any())
-                        scriptProposals.Add(new ScriptProposal
-                        {
-                            Script = monoBehaviour,
-                            FieldProposals = fieldProposals.ToArray()
-                        });
-                }
+                var scriptProposals = GetScriptProposals(gameObject);
 
                 if (scriptProposals.Any())
                     gameObjectProposals.Add(
@@ -73,6 +26,65 @@ namespace Strawhenge.Common.Unity.Editor
             }
 
             return gameObjectProposals.ToArray();
+        }
+
+        static IReadOnlyList<ScriptProposal> GetScriptProposals(GameObject gameObject)
+        {
+            var scriptProposals = new List<ScriptProposal>();
+
+            var scripts = gameObject
+                .GetComponentsInChildren<MonoBehaviour>(includeInactive: true);
+
+            foreach (var script in scripts)
+            {
+                var fieldProposals = GetFieldProposals(script, gameObject);
+
+                if (fieldProposals.Any())
+                    scriptProposals.Add(new ScriptProposal
+                    {
+                        Script = script,
+                        FieldProposals = fieldProposals.ToArray()
+                    });
+            }
+
+            return scriptProposals;
+        }
+
+        static IReadOnlyList<FieldProposal> GetFieldProposals(MonoBehaviour script, GameObject root)
+        {
+            var serializedObject = new SerializedObject(script);
+            var serializedProperty = serializedObject.GetIterator();
+
+            var fieldProposals = new List<FieldProposal>();
+
+            while (serializedProperty.NextVisible(enterChildren: true))
+            {
+                if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference)
+                    continue;
+
+                if (serializedProperty.objectReferenceValue != null)
+                    continue;
+
+                var fieldInfo = script
+                    .GetType()
+                    .GetField(
+                        serializedProperty.name,
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (fieldInfo == null || !typeof(Component).IsAssignableFrom(fieldInfo.FieldType))
+                    continue;
+
+                var match = root.GetComponentInChildren(fieldInfo.FieldType, includeInactive: true);
+
+                if (match != null)
+                    fieldProposals.Add(new FieldProposal
+                    {
+                        FieldName = serializedProperty.name,
+                        Value = match
+                    });
+            }
+
+            return fieldProposals;
         }
     }
 }
