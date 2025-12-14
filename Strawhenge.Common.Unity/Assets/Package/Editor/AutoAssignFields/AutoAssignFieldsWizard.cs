@@ -29,7 +29,7 @@ namespace Strawhenge.Common.Unity.Editor
             var result = base.DrawWizardGUI();
 
             if (GUILayout.Button("Find Fields"))
-                _proposals = Proposals.Create(_gameObjects);
+                _proposals = Proposals.Get(_gameObjects);
 
             if (_proposals != null)
                 DisplayProposals();

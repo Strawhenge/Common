@@ -8,7 +8,7 @@ namespace Strawhenge.Common.Unity.Editor
 {
     static class Proposals
     {
-        public static IReadOnlyList<GameObjectProposal> Create(IEnumerable<GameObject> gameObjects)
+        public static IReadOnlyList<GameObjectProposal> Get(IEnumerable<GameObject> gameObjects)
         {
             var gameObjectProposals = new List<GameObjectProposal>();
 
