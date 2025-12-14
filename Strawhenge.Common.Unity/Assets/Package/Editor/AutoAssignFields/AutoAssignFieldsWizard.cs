@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,107 +16,44 @@ namespace Strawhenge.Common.Unity.Editor
 
         [SerializeField] GameObject[] _gameObjects;
 
-        ProposedGameObjectScriptFieldAssignments[] _proposals;
+        IReadOnlyList<ProposedGameObjectScriptFieldAssignments> _proposals;
 
         protected override bool DrawWizardGUI()
         {
             var result = base.DrawWizardGUI();
 
             if (GUILayout.Button("Find Fields"))
-                FindFields();
+                _proposals = Proposals.Create(_gameObjects);
 
             if (_proposals != null)
-            {
-                foreach (var proposal in _proposals)
-                {
-                    EditorGUILayout.LabelField(proposal.GameObject.name, EditorStyles.boldLabel);
-
-                    foreach (var scriptFieldAssignment in proposal.ScriptFieldAssignments)
-                    {
-                        EditorGUILayout.LabelField(
-                            $"{scriptFieldAssignment.Script.name} ({scriptFieldAssignment.Script.GetType().Name})");
-
-                        foreach (var fieldAssignment in scriptFieldAssignment.FieldAssignments)
-                        {
-                            EditorGUILayout.BeginHorizontal();
-
-                            fieldAssignment.Accept = EditorGUILayout.Toggle(fieldAssignment.Accept);
-                            EditorGUILayout.LabelField(
-                                $"{fieldAssignment.Field} => {fieldAssignment.Match.name} ({fieldAssignment.Match.GetType().Name})");
-
-                            EditorGUILayout.EndHorizontal();
-                        }
-                    }
-                }
-            }
+                DisplayProposals();
 
             return result;
         }
 
-        void FindFields()
+        void DisplayProposals()
         {
-            var gameObjectScriptFieldAssignments = new List<ProposedGameObjectScriptFieldAssignments>();
-
-            foreach (GameObject gameObject in _gameObjects)
+            foreach (var proposal in _proposals)
             {
-                if (gameObject == null)
-                    continue;
+                EditorGUILayout.LabelField(proposal.GameObject.name, EditorStyles.boldLabel);
 
-                var scriptFieldAssignments = new List<ProposedScriptFieldAssignments>();
-
-                var monoBehaviours = gameObject.GetComponentsInChildren<MonoBehaviour>(includeInactive: true);
-                foreach (var monoBehaviour in monoBehaviours)
+                foreach (var scriptFieldAssignment in proposal.ScriptFieldAssignments)
                 {
-                    var serializedObject = new SerializedObject(monoBehaviour);
-                    var serializedProperty = serializedObject.GetIterator();
+                    EditorGUILayout.LabelField(
+                        $"{scriptFieldAssignment.Script.name} ({scriptFieldAssignment.Script.GetType().Name})");
 
-                    var fieldAssignments = new List<ProposedFieldAssignment>();
-
-                    while (serializedProperty.NextVisible(enterChildren: true))
+                    foreach (var fieldAssignment in scriptFieldAssignment.FieldAssignments)
                     {
-                        if (serializedProperty.propertyType != SerializedPropertyType.ObjectReference)
-                            continue;
+                        EditorGUILayout.BeginHorizontal();
 
-                        if (serializedProperty.objectReferenceValue != null)
-                            continue;
+                        fieldAssignment.Accept = EditorGUILayout.Toggle(fieldAssignment.Accept);
+                        EditorGUILayout.LabelField(
+                            $"{fieldAssignment.Field} => {fieldAssignment.Match.name} ({fieldAssignment.Match.GetType().Name})");
 
-                        var fieldInfo = monoBehaviour
-                            .GetType()
-                            .GetField(
-                                serializedProperty.name,
-                                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-                        if (fieldInfo == null || !typeof(Component).IsAssignableFrom(fieldInfo.FieldType))
-                            continue;
-
-                        var match = gameObject.GetComponentInChildren(fieldInfo.FieldType, includeInactive: true);
-
-                        if (match != null)
-                            fieldAssignments.Add(new ProposedFieldAssignment
-                            {
-                                Field = serializedProperty.name,
-                                Match = match
-                            });
+                        EditorGUILayout.EndHorizontal();
                     }
-
-                    if (fieldAssignments.Any())
-                        scriptFieldAssignments.Add(new ProposedScriptFieldAssignments
-                        {
-                            Script = monoBehaviour,
-                            FieldAssignments = fieldAssignments.ToArray()
-                        });
                 }
-
-                if (scriptFieldAssignments.Any())
-                    gameObjectScriptFieldAssignments.Add(
-                        new ProposedGameObjectScriptFieldAssignments
-                        {
-                            GameObject = gameObject,
-                            ScriptFieldAssignments = scriptFieldAssignments.ToArray()
-                        });
             }
-
-            _proposals = gameObjectScriptFieldAssignments.ToArray();
         }
     }
 }
