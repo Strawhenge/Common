@@ -53,6 +53,7 @@ namespace Strawhenge.Common.Unity.Editor
         {
             foreach (var proposal in _proposals)
             {
+                EditorGUILayout.Separator();
                 EditorGUILayout.LabelField(proposal.GameObject.name, EditorStyles.boldLabel);
 
                 foreach (var scriptFieldAssignment in proposal.ScriptProposals)
