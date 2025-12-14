@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -17,6 +18,11 @@ namespace Strawhenge.Common.Unity.Editor
         [SerializeField] GameObject[] _gameObjects;
 
         IReadOnlyList<ProposedGameObjectScriptFieldAssignments> _proposals;
+
+        void OnWizardCreate()
+        {
+            AutoAssignFields.Assign(_proposals);
+        }
 
         protected override bool DrawWizardGUI()
         {
