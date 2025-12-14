@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,6 +19,17 @@ namespace Strawhenge.Common.Unity.Editor
 
         IReadOnlyList<GameObjectProposal> _proposals;
 
+        void OnEnable()
+        {
+            isValid = false;
+            _gameObjects = Selection.objects
+                .OfType<GameObject>()
+                .Distinct()
+                .ToArray();
+        }
+
+        void OnValidate() => CheckValidity();
+
         void OnWizardCreate()
         {
             AutoAssignFields.Assign(_proposals);
@@ -34,6 +45,7 @@ namespace Strawhenge.Common.Unity.Editor
             if (_proposals != null)
                 DisplayProposals();
 
+            CheckValidity();
             return result;
         }
 
@@ -61,5 +73,7 @@ namespace Strawhenge.Common.Unity.Editor
                 }
             }
         }
+
+        void CheckValidity() => isValid = _proposals != null && _proposals.Any();
     }
 }
