@@ -1,11 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Editor
 {
     class ScriptProposal
     {
-        public MonoBehaviour Script { get; set; }
+        public ScriptProposal(MonoBehaviour script, IReadOnlyList<FieldProposal> fieldProposals)
+        {
+            Script = script;
+            FieldProposals = fieldProposals;
+        }
 
-        public FieldProposal[] FieldProposals { get; set; }
+        public MonoBehaviour Script { get; }
+
+        public IReadOnlyList<FieldProposal> FieldProposals { get; }
     }
 }

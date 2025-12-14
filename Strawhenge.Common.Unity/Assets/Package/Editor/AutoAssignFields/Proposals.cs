@@ -18,11 +18,7 @@ namespace Strawhenge.Common.Unity.Editor
 
                 if (scriptProposals.Any())
                     gameObjectProposals.Add(
-                        new GameObjectProposal
-                        {
-                            GameObject = gameObject,
-                            ScriptProposals = scriptProposals.ToArray()
-                        });
+                        new GameObjectProposal(gameObject, scriptProposals));
             }
 
             return gameObjectProposals.ToArray();
@@ -40,11 +36,7 @@ namespace Strawhenge.Common.Unity.Editor
                 var fieldProposals = GetFieldProposals(script, gameObject);
 
                 if (fieldProposals.Any())
-                    scriptProposals.Add(new ScriptProposal
-                    {
-                        Script = script,
-                        FieldProposals = fieldProposals.ToArray()
-                    });
+                    scriptProposals.Add(new ScriptProposal(script, fieldProposals));
             }
 
             return scriptProposals;
@@ -77,11 +69,7 @@ namespace Strawhenge.Common.Unity.Editor
                 var match = root.GetComponentInChildren(fieldInfo.FieldType, includeInactive: true);
 
                 if (match != null)
-                    fieldProposals.Add(new FieldProposal
-                    {
-                        FieldName = serializedProperty.name,
-                        Value = match
-                    });
+                    fieldProposals.Add(new FieldProposal(serializedProperty.name, match));
             }
 
             return fieldProposals;

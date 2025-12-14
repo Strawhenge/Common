@@ -5,9 +5,15 @@ namespace Strawhenge.Common.Unity.Editor
 {
     class FieldProposal
     {
-        public string FieldName { get; set; }
+        public FieldProposal(string fieldName, Component value)
+        {
+            FieldName = fieldName;
+            Value = value;
+        }
 
-        public Component Value { get; set; }
+        public string FieldName { get; }
+
+        public Component Value { get; }
 
         public bool Accept { get; set; } = true;
     }
