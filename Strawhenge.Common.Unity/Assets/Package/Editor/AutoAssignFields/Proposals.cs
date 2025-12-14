@@ -11,14 +11,14 @@ namespace Strawhenge.Common.Unity.Editor
         public static IReadOnlyList<GameObjectProposal> Create(
             IEnumerable<GameObject> gameObjects)
         {
-            var gameObjectScriptFieldAssignments = new List<GameObjectProposal>();
+            var gameObjectProposals = new List<GameObjectProposal>();
 
-            foreach (GameObject gameObject in gameObjects)
+            foreach (var gameObject in gameObjects)
             {
                 if (gameObject == null)
                     continue;
 
-                var scriptFieldAssignments = new List<ScriptProposal>();
+                var scriptProposals = new List<ScriptProposal>();
 
                 var monoBehaviours = gameObject.GetComponentsInChildren<MonoBehaviour>(includeInactive: true);
                 foreach (var monoBehaviour in monoBehaviours)
@@ -26,7 +26,7 @@ namespace Strawhenge.Common.Unity.Editor
                     var serializedObject = new SerializedObject(monoBehaviour);
                     var serializedProperty = serializedObject.GetIterator();
 
-                    var fieldAssignments = new List<FieldProposal>();
+                    var fieldProposals = new List<FieldProposal>();
 
                     while (serializedProperty.NextVisible(enterChildren: true))
                     {
@@ -48,31 +48,31 @@ namespace Strawhenge.Common.Unity.Editor
                         var match = gameObject.GetComponentInChildren(fieldInfo.FieldType, includeInactive: true);
 
                         if (match != null)
-                            fieldAssignments.Add(new FieldProposal
+                            fieldProposals.Add(new FieldProposal
                             {
                                 FieldName = serializedProperty.name,
                                 Value = match
                             });
                     }
 
-                    if (fieldAssignments.Any())
-                        scriptFieldAssignments.Add(new ScriptProposal
+                    if (fieldProposals.Any())
+                        scriptProposals.Add(new ScriptProposal
                         {
                             Script = monoBehaviour,
-                            FieldProposals = fieldAssignments.ToArray()
+                            FieldProposals = fieldProposals.ToArray()
                         });
                 }
 
-                if (scriptFieldAssignments.Any())
-                    gameObjectScriptFieldAssignments.Add(
+                if (scriptProposals.Any())
+                    gameObjectProposals.Add(
                         new GameObjectProposal
                         {
                             GameObject = gameObject,
-                            ScriptProposals = scriptFieldAssignments.ToArray()
+                            ScriptProposals = scriptProposals.ToArray()
                         });
             }
 
-            return gameObjectScriptFieldAssignments.ToArray();
+            return gameObjectProposals.ToArray();
         }
     }
 }
