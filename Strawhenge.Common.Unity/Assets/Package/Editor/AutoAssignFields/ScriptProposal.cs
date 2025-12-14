@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Editor
 {
-    class ProposedScriptFieldAssignments
+    class ScriptProposal
     {
         public MonoBehaviour Script { get; set; }
 
-        public ProposedFieldAssignment[] FieldAssignments { get; set; }
+        public FieldProposal[] FieldProposals { get; set; }
     }
 }

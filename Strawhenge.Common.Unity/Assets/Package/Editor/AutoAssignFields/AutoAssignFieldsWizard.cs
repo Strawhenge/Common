@@ -17,7 +17,7 @@ namespace Strawhenge.Common.Unity.Editor
 
         [SerializeField] GameObject[] _gameObjects;
 
-        IReadOnlyList<ProposedGameObjectScriptFieldAssignments> _proposals;
+        IReadOnlyList<GameObjectProposal> _proposals;
 
         void OnWizardCreate()
         {
@@ -43,18 +43,18 @@ namespace Strawhenge.Common.Unity.Editor
             {
                 EditorGUILayout.LabelField(proposal.GameObject.name, EditorStyles.boldLabel);
 
-                foreach (var scriptFieldAssignment in proposal.ScriptFieldAssignments)
+                foreach (var scriptFieldAssignment in proposal.ScriptProposals)
                 {
                     EditorGUILayout.LabelField(
                         $"{scriptFieldAssignment.Script.name} ({scriptFieldAssignment.Script.GetType().Name})");
 
-                    foreach (var fieldAssignment in scriptFieldAssignment.FieldAssignments)
+                    foreach (var fieldAssignment in scriptFieldAssignment.FieldProposals)
                     {
                         EditorGUILayout.BeginHorizontal();
 
                         fieldAssignment.Accept = EditorGUILayout.Toggle(fieldAssignment.Accept);
                         EditorGUILayout.LabelField(
-                            $"{fieldAssignment.Field} => {fieldAssignment.Match.name} ({fieldAssignment.Match.GetType().Name})");
+                            $"{fieldAssignment.FieldName} => {fieldAssignment.Value.name} ({fieldAssignment.Value.GetType().Name})");
 
                         EditorGUILayout.EndHorizontal();
                     }

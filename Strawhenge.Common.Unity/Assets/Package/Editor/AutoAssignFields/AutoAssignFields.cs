@@ -5,26 +5,24 @@ namespace Strawhenge.Common.Unity.Editor
 {
     static class AutoAssignFields
     {
-        public static void Assign(IEnumerable<ProposedGameObjectScriptFieldAssignments> proposals)
+        public static void Assign(IEnumerable<GameObjectProposal> proposals)
         {
             foreach (var gameObjectProposal in proposals)
+            foreach (var scriptProposal in gameObjectProposal.ScriptProposals)
             {
-                foreach (var scriptProposal in gameObjectProposal.ScriptFieldAssignments)
+                var serializedObject = new SerializedObject(scriptProposal.Script);
+
+                foreach (var fieldProposal in scriptProposal.FieldProposals)
                 {
-                    var serializedObject = new SerializedObject(scriptProposal.Script);
+                    if (!fieldProposal.Accept)
+                        continue;
 
-                    foreach (var fieldProposal in scriptProposal.FieldAssignments)
-                    {
-                        if (!fieldProposal.Accept)
-                            continue;
-
-                        var property = serializedObject.FindProperty(fieldProposal.Field);
-                        property.objectReferenceValue = fieldProposal.Match;
-                    }
-
-                    serializedObject.ApplyModifiedProperties();
-                    EditorUtility.SetDirty(scriptProposal.Script);
+                    var property = serializedObject.FindProperty(fieldProposal.FieldName);
+                    property.objectReferenceValue = fieldProposal.Value;
                 }
+
+                serializedObject.ApplyModifiedProperties();
+                EditorUtility.SetDirty(scriptProposal.Script);
             }
         }
     }

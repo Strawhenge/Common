@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Strawhenge.Common.Unity.Editor
 {
-    class ProposedFieldAssignment
+    class FieldProposal
     {
-        public string Field { get; set; }
+        public string FieldName { get; set; }
 
-        public Component Match { get; set; }
+        public Component Value { get; set; }
 
         public bool Accept { get; set; } = true;
     }
