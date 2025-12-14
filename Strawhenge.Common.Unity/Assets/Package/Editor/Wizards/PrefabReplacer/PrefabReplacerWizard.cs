@@ -7,7 +7,7 @@ namespace Strawhenge.Common.Unity.Editor
     {
         const string Name = "Prefab Replacer";
 
-        [MenuItem("Strawhenge/" + Name)]
+        [MenuItem("Strawhenge/Common/" + Name)]
         public static void ShowEditorWindow()
         {
             DisplayWizard<PrefabReplacerWizard>(Name, "Replace");

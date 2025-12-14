@@ -9,7 +9,7 @@ namespace Strawhenge.Common.Unity.Editor
     {
         const string Name = "Auto Assign Fields";
 
-        [MenuItem("Strawhenge/" + Name)]
+        [MenuItem("Strawhenge/Common/" + Name)]
         public static void ShowEditorWindow()
         {
             DisplayWizard<AutoAssignFieldsWizard>(Name, "Assign Fields");
