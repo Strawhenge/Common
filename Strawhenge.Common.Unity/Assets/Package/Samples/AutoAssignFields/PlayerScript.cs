@@ -8,5 +8,6 @@ namespace Strawhenge.Common.Unity
         [SerializeField] EmotesScript _emotes;
         [SerializeField] InventoryScript _inventory;
         [SerializeField] LoggerScript _logger;
+        [SerializeField] Transform _root;
     }
 }

@@ -63,7 +63,9 @@ namespace Strawhenge.Common.Unity.Editor
                         serializedProperty.name,
                         BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                if (fieldInfo == null || !typeof(Component).IsAssignableFrom(fieldInfo.FieldType))
+                if (fieldInfo == null ||
+                    !typeof(Component).IsAssignableFrom(fieldInfo.FieldType) ||
+                    typeof(Transform).IsAssignableFrom(fieldInfo.FieldType))
                     continue;
 
                 var match = root.GetComponentInChildren(fieldInfo.FieldType, includeInactive: true);
