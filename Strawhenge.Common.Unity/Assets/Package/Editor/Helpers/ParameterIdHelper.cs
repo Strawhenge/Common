@@ -6,9 +6,9 @@ namespace Strawhenge.Common.Unity.Editor.Helpers
     public static class ParameterIdHelper
     {
         /// <summary>
-        /// Returns the highest integer value of the supplied parameter(s) used in the animator, plus 1.
+        /// Returns the highest integer value of the supplied parameter used in the animator, plus 1.
         /// </summary>
-        public static int Generate(AnimatorController animatorController, params AnimatorParameter[] parameters)
+        public static int Generate(AnimatorController animatorController, AnimatorParameter parameter)
         {
             var highestId = 0;
 
@@ -16,9 +16,7 @@ namespace Strawhenge.Common.Unity.Editor.Helpers
             {
                 highestId = layer.stateMachine.defaultState.transitions
                     .SelectMany(x => x.conditions
-                        .Where(y => parameters
-                            .Select(parameter => parameter.Name)
-                            .Contains(y.parameter))
+                        .Where(y => y.parameter == parameter.Name)
                         .Select(y => (int)y.threshold))
                     .Prepend(highestId)
                     .Max();
